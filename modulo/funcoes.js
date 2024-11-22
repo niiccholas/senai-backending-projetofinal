@@ -75,14 +75,20 @@ function getAlunosCurso(siglaCurso){
     lista.curso = siglaCurso
     lista.alunos = []
 
+    let status = false
     listaAlunos.forEach(function(aluno){
         aluno.curso.forEach(function(cursinho){
             if(cursinho.sigla == siglaCurso){
+                status = true
                 aluno.curso = siglaCurso
                 lista.alunos.push(aluno)
             }
         })
-    }) // tem que fazer coisa de true ou false ainda
+    }) // tem que fazer coisa de true ou false ainda nao to com fé
+    
+    if(status != true){
+        lista = false
+    }
 
     return lista
 }
