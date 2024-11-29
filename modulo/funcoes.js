@@ -77,15 +77,103 @@ function getAlunosCurso(siglaCurso){
 
     let status = false
     listaAlunos.forEach(function(aluno){
-        aluno.curso.forEach(function(cursinho){
-            if(cursinho.sigla == siglaCurso){
+        aluno.curso.forEach(function(curso){
+            if(curso.sigla == siglaCurso){
                 status = true
-                aluno.curso = siglaCurso
                 lista.alunos.push(aluno)
             }
         })
-    }) // tem que fazer coisa de true ou false ainda nao to com fé
+    })
     
+    if(status != true){
+        lista = false
+    }
+
+    return lista
+}
+
+function getAlunosStatus(status){
+    lista = {}
+
+    lista.status = status
+    lista.alunos = []
+
+    let statusUtils = false
+
+    listaAlunos.forEach(function(aluno){
+        if(aluno.status == status){
+            statusUtils = true
+            lista.alunos.push(aluno)
+        }
+    })
+
+    if(statusUtils != true){
+        lista = false
+    }
+
+    return lista
+}
+
+function getAlunosCursoStatus(status, siglaCurso){
+    lista = {}
+
+    lista.status = status
+    lista.curso = siglaCurso
+    lista.alunos = []
+
+    let statusUtils = false
+    listaAlunos.forEach(function(aluno){
+        aluno.curso.forEach(function(curso){
+            if(curso.sigla == siglaCurso){
+                statusAluno = false
+                listaAluno = {}
+                listaAluno.foto = aluno.foto
+                listaAluno.nome = aluno.nome
+                listaAluno.matricula = aluno.matricula
+                listaAluno.sexo = aluno.sexo
+                listaAluno.disciplinas = []
+                curso.disciplinas.forEach(function(disciplina){
+                    if(disciplina.status == status){
+                        statusAluno = true
+                        statusUtils = true
+                        listaAluno.disciplinas.push(disciplina)       
+                    }
+                })
+
+                if(statusAluno == true){
+                    lista.alunos.push(listaAluno)
+                }
+            }
+        })
+    })
+
+    if(statusUtils != true){
+        lista = false
+    }
+
+    return lista
+}
+
+function getAlunosCursoAno(ano, siglaCurso){
+    lista = {}
+
+    lista.anoConclusao = ano
+    lista.curso = siglaCurso
+    lista.alunos = []
+
+    let status = false
+
+    listaAlunos.forEach(function(aluno){
+        aluno.curso.forEach(function(curso){
+            if(curso.sigla == siglaCurso){
+                if(curso.conclusao == ano){
+                    status = true
+                    lista.alunos.push(aluno)
+                }
+            }
+        })
+    })
+
     if(status != true){
         lista = false
     }
@@ -95,5 +183,18 @@ function getAlunosCurso(siglaCurso){
 
 // console.log(getListaCursos())
 // console.log(getListaAlunos())
-// console.log(getAluno('20151001016'))
-console.log(getAlunosCurso('DS'))
+// console.log(getAluno('20151001018'))
+// console.log(getAlunosCurso('DS'))
+// console.log(getAlunosStatus('Finalizado'))
+// console.log(getAlunosCursoStatus('Reprovado', 'DS'))
+// console.log(getAlunosCursoAno('2018', 'DS'))
+
+module.exports = {
+    getAluno,
+    getAlunosCurso,
+    getAlunosCursoAno,
+    getAlunosCursoStatus,
+    getAlunosStatus,
+    getListaAlunos,
+    getListaCursos
+}
